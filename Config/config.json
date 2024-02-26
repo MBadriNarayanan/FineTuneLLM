@@ -1,0 +1,47 @@
+{
+    "Authentication": {
+        "wandbSecurityKey": "wandbSecurityKey"
+    },
+    "Data": {
+        "dataPath": "data/data.json",
+        "textField": "conversations"
+    },
+    "BaseModel": {
+        "modelName": "mistralai/Mistral-7B-v0.1",
+        "fourBitLoad": true,
+        "fourBitQuant": "nf4",
+        "doubleQuant": false,
+        "trustCode": true
+
+    },
+    "FineTune": {
+        "newModelName": "custom_mistral_7b",
+        "useCache": false,
+        "rankValue": 1,
+        "loraAlpha": 16,
+        "loraDropout": 0.05,
+        "biasValue": "none",
+        "taskType": "CAUSAL_LM",
+        "targetModules": "q_proj,k_proj,v_proj,o_proj,gate_proj"
+    },
+    "Train": {
+        "outputDirectory": "Output",
+        "loggingDirectory": "Logs",
+        "numberOfEpochs": 1,
+        "deviceBatchSize": 4,
+        "gradientAccumulation": 1,
+        "optimizerFunction": "paged_adamw_8bit",
+        "saveSteps": 500,
+        "loggingSteps": 25,
+        "learningRate": 2e-4,
+        "weightDecay": 1e-3,
+        "maxGradNorm": 3e-1,
+        "maxSteps": -1,
+        "warmupRatio": 3e-2,
+        "useReentrant": false,
+        "sequenceLength": 1024
+    },
+    "Eval": {
+        "userPrompt": "Sample user prompt"
+    }
+}
