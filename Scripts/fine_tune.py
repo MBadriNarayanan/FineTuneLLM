@@ -79,8 +79,6 @@ if __name__ == "__main__":
     use_reentrant = config["Train"]["useReentrant"]
     sequence_length = config["Train"]["sequenceLength"]
 
-    user_prompt = config["Eval"]["userPrompt"]
-
     create_directory(directory=output_directory)
     output_directory = os.path.join(output_directory, new_model_name)
     create_directory(directory=output_directory)
