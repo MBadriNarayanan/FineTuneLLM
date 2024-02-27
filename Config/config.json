@@ -42,6 +42,7 @@
         "sequenceLength": 1024
     },
     "Eval": {
-        "userPrompt": "Sample user prompt"
+        "userPrompt": "Sample user prompt",
+        "checkpointPath": "Checkpoint to be used for prediction"
     }
 }
