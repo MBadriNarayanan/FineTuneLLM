@@ -143,9 +143,9 @@ def load_data(data_path):
             "The conversation is between Human and AI assisatant named Samantha "
         )
         for item in data_dict["conversations"]:
-            if item["from"]:
+            if item["from"] == "human":
                 data_string += "[INST] "
-            elif item["gpt"]:
+            elif item["from"] == "gpt":
                 data_string += "[/INST] "
             data_string += item["value"]
         idx_list.append(idx)
