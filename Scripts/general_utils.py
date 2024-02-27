@@ -86,11 +86,9 @@ def get_model_prediction(model, tokenizer, user_prompt, sequence_length):
     prompt = "{}{}{}\n{}".format(data_string, "[INST]", user_prompt.strip(), "[/INST]")
     inputs = tokenizer([prompt], return_tensors="pt").to(runtimeFlag)
     streamer = TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
-    generated_text = model.generate(
+    _ = model.generate(
         **inputs, streamer=streamer, max_new_tokens=sequence_length
     )
-    print("Generated Response\n: {}".format(generated_text))
-    return generated_text
 
 
 def initialise_training_arguments(
