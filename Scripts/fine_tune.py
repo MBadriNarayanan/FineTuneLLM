@@ -97,6 +97,7 @@ if __name__ == "__main__":
         trust_code=trust_code,
     )
 
+    torch.cuda.empty_cache()
     model = load_base_model(
         base_model_name=base_model_name, bnb_config=bnb_config, trust_code=trust_code
     )

@@ -31,8 +31,6 @@ if __name__ == "__main__":
         device = torch.device("cpu")
         print("GPU not available!")
 
-    authentication_key = config["Authentication"]["wandbSecurityKey"]
-
     text_field = config["Data"]["textField"]
 
     base_model_name = config["BaseModel"]["modelName"]
@@ -54,6 +52,7 @@ if __name__ == "__main__":
         trust_code=trust_code,
     )
 
+    torch.cuda.empty_cache()
     model = load_base_model(
         base_model_name=base_model_name, bnb_config=bnb_config, trust_code=trust_code
     )
