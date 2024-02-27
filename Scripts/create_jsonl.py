@@ -33,9 +33,9 @@ if __name__ == "__main__":
     for idx, data_dict in tqdm(enumerate(json_data)):
         data_string = ""
         for item in data_dict["conversations"]:
-            if item["from"]:
+            if item["from"] == "human":
                 data_string += "[INST] "
-            elif item["gpt"]:
+            elif item["from"] == "gpt":
                 data_string += "[/INST] "
             data_string += item["value"]
         text_list.append({"text": data_string})
