@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     model = PeftModel.from_pretrained(model, checkpoint_path)
 
-    generated_response = get_model_prediction(
+    get_model_prediction(
         model=model,
         tokenizer=tokenizer,
         user_prompt=user_prompt,
