@@ -42,7 +42,7 @@ def create_bnb_config_tokenizer(
     tokenizer = AutoTokenizer.from_pretrained(
         base_model_name, trust_remote_code=trust_code
     )
-    tokenizer.padding_side = 'right'
+    tokenizer.padding_side = "right"
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.add_eos_token = True
     return bnb_config, tokenizer
@@ -76,6 +76,21 @@ def get_model_parameters(model):
         )
     )
     print("--------------------")
+
+
+def get_model_prediction(model, tokenizer, user_prompt, sequence_length):
+    model.config.use_cache = True
+    model.eval()
+    runtimeFlag = "cuda:0"
+    data_string = "The conversation is between Human and AI assisatant named Samantha\n"
+    prompt = "{}{}{}\n{}".format(data_string, "[INST]", user_prompt.strip(), "[/INST]")
+    inputs = tokenizer([prompt], return_tensors="pt").to(runtimeFlag)
+    streamer = TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+    generated_text = model.generate(
+        **inputs, streamer=streamer, max_new_tokens=sequence_length
+    )
+    print("Generated Response\n: {}".format(generated_text))
+    return generated_text
 
 
 def initialise_training_arguments(
@@ -163,17 +178,3 @@ def prepare_model_for_training(model, peft_config, use_cache):
     model = get_peft_model(model, peft_config)
     get_model_parameters(model=model)
     return model
-
-def talk_to_model(model, tokenizer, user_prompt, sequence_length):
-    model.config.use_cache = True
-    model.eval()
-    runtimeFlag = "cuda:0"
-    data_string = (
-        "The conversation is between Human and AI assisatant named Samantha\n"
-    )
-    prompt = "{}{}{}\n{}".format(data_string, "[INST]", user_prompt.strip(), "[/INST]")
-    inputs = tokenizer([prompt], return_tensors="pt").to(runtimeFlag)
-    streamer = TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
-    generated_text = model.generate(**inputs, streamer=streamer, max_new_tokens=sequence_length)
-    print("Generated Response\n: {}".format(generated_text))
-    return generated_text
