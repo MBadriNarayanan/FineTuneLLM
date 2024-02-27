@@ -16,7 +16,6 @@ from general_utils import (
     load_base_model,
     load_data,
     prepare_model_for_training,
-    talk_to_model,
 )
 
 
@@ -25,7 +24,7 @@ if __name__ == "__main__":
         "\n--------------------\nStarting the fine-tuning process!\n--------------------\n"
     )
     if len(sys.argv) != 2:
-        print("Pass train config file as argument!")
+        print("Pass config file as argument!")
         sys.exit()
 
     filename = sys.argv[1]
@@ -101,9 +100,7 @@ if __name__ == "__main__":
     )
 
     model = load_base_model(
-        base_model_name=base_model_name,
-        bnb_config=bnb_config,
-        trust_code=trust_code
+        base_model_name=base_model_name, bnb_config=bnb_config, trust_code=trust_code
     )
 
     peft_config = create_peft_config(
@@ -152,8 +149,7 @@ if __name__ == "__main__":
     trainer.model.save_pretrained(output_directory)
     wandb.finish()
 
-    generated_text = talk_to_model(model=model, tokenizer=tokenizer, user_prompt=user_prompt, sequence_length=sequence_length)
-
+    del model, trainer
     torch.cuda.empty_cache()
 
     print(
